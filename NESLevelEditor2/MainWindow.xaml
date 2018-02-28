@@ -1,0 +1,92 @@
+﻿<Window x:Class="NESLevelEditor2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NESLevelEditor2"
+        mc:Ignorable="d"
+        Title="Game o'matic" Height="768" Width="1024">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- grid which holds the game selection form -->
+        <Grid x:Name="GrdSelection" Grid.Row="0"  >
+            <Grid.Effect>
+                <DropShadowEffect/>
+            </Grid.Effect>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <TextBlock Margin="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" Text="Game o'matic" FontFamily="Ravie" FontSize="36" Foreground="#FFA9F6F2" />
+
+            <!-- Select Game -->
+            <StackPanel Grid.Column="1" Grid.Row="2">
+                <TextBlock Text="Select Game"></TextBlock>
+                <ComboBox x:Name="CboGame"  SelectedValuePath="Id" ItemsSource="{Binding Games}" SelectionChanged="CboGame_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Picture }" Stretch="Fill" Width="50" Height="50"/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Select Level -->
+            <StackPanel Grid.Column="1" Grid.Row="3" Margin="0 20 0 0">
+                <TextBlock Text="Select Level"></TextBlock>
+                <ComboBox x:Name="CboLevel" SelectedValuePath="Id" ItemsSource="{Binding Levels}" SelectionChanged="CboLevel_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}"/>
+                                <Image Source="{Binding Picture}" Stretch="Fill" Height="50"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Next Button -->
+            <Grid Grid.Column="1" Grid.Row="5" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="BtnNext" Content="Next" Background="#FFA9F6F2" Grid.ColumnSpan="2" Height="30" Margin="718,0,-0.4,-0.4" VerticalAlignment="Top" Click="BtnNext_Click" />
+
+            </Grid>
+
+        </Grid>
+
+      
+
+    </Grid>
+
+
+
+
+</Window>
