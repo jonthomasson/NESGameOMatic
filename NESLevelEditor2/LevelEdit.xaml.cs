@@ -74,11 +74,24 @@ namespace NESLevelEditor2
             //loop through blocks and add them to the wrap panel.
             for (int i = 0; i < _blocks.Length - 1; i++)
             {
-                var img = new System.Windows.Controls.Image();
-                img.Stretch = System.Windows.Media.Stretch.None;
-                
-                img.Source = UtilsGDI.GetImageStream(_blocks[i]);
-                PnlBlocks.Children.Add(img);
+
+                var img = new System.Windows.Controls.Image
+                {
+                    Stretch = System.Windows.Media.Stretch.None,
+                    Source = UtilsGDI.GetImageStream(_blocks[i])
+
+                };
+
+                var border = new Border
+                {
+                    BorderBrush = System.Windows.Media.Brushes.White,
+                    BorderThickness = new Thickness(1)
+                };
+
+                border.Child = img;
+
+
+                PnlBlocks.Children.Add(border);
             }
             
         }
