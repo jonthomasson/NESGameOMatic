@@ -71,53 +71,22 @@ namespace NESLevelEditor2
             var videoNes = new Video();
             _blocks = videoNes.makeBigBlocks(0, 0, 0, 0, MapViewType.Tiles, MapViewType.Tiles, 0);
 
-           
-
-            //UtilsGui.resizeBlocksScreen(_blocks, blocksScreen, layers[0].blockWidth, layers[0].blockHeight, curScale);
-
-            //redraw blocks
-            //BlocksScreen.Source. = _blocks[1];
-            BlocksScreen.Source = GetImageStream(_blocks[1]);
-           // BlocksScreen.InvalidateVisual();
-        }
-
-        public static BitmapSource GetImageStream(System.Drawing.Image myImage)
-        {
-            var bitmap = new Bitmap(myImage);
-            IntPtr bmpPt = bitmap.GetHbitmap();
-            BitmapSource bitmapSource =
-                System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                    bmpPt,
-                    IntPtr.Zero,
-                    Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
-
-            //freeze bitmapSource and clear memory to avoid memory leaks
-            bitmapSource.Freeze();
-            DeleteObject(bmpPt);
-
-            return bitmapSource;
-        }
-
-        [DllImport("gdi32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool DeleteObject(IntPtr value);
-
-        private void blocksScreen_OnRender(object sender, PaintEventArgs e)
-        {
-            //if (!fileLoaded)
-            //    return;
-            var g = e.Graphics;
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-            //var visibleRect = UtilsGui.getVisibleRectangle(pnBlocks, blocksScreen);
-            MapEditor.RenderAllBlocks(e.Graphics, BlocksScreen, _blocks, 32, 32, null, 2, 0, true);
+            //loop through blocks and add them to the wrap panel.
+            for (int i = 0; i < _blocks.Length - 1; i++)
+            {
+                var img = new System.Windows.Controls.Image();
+                img.Stretch = System.Windows.Media.Stretch.None;
+                
+                img.Source = UtilsGDI.GetImageStream(_blocks[i]);
+                PnlBlocks.Children.Add(img);
+            }
+            
         }
 
         private void InitGlobalData()
         {
             Globals.loadData(FileName, "", ConfigName);
-            
+
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)

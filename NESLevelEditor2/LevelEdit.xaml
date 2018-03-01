@@ -21,9 +21,9 @@
         </Grid.RowDefinitions>
 
         <!-- panel for holding the tiles -->
-        <WrapPanel Grid.Column="1" Grid.Row="1">
+        <WrapPanel x:Name="PnlBlocks" Grid.Column="1" Grid.Row="1">
             
-            <Image  x:Name="BlocksScreen"   />
+            <Image  x:Name="BlocksScreen" Stretch="None"   />
         </WrapPanel>
 
         <!-- grid for holding the level editor screen -->

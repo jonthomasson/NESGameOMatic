@@ -4,7 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Drawing.Brushes;
+using Color = System.Drawing.Color;
+using Pen = System.Drawing.Pen;
 
 namespace NESLevelEditor2
 {
@@ -69,7 +75,7 @@ namespace NESLevelEditor2
             ConfigScript.renderToMainScreen(g, (int)CurScale);
         }
 
-        public static void RenderAllBlocks(Graphics g, System.Windows.Controls.Image parentControl, Image[] bigBlocks, int blockWidth, int blockHeight, Rectangle? visibleRect, float CurScale, int activeBlock, bool showBlocksAxis)
+        public static void RenderAllBlocks(DrawingContext g, System.Windows.Controls.Image parentControl, Image[] bigBlocks, int blockWidth, int blockHeight, Rect? visibleRect, float CurScale, int activeBlock, bool showBlocksAxis)
         {
             int TILE_SIZE_X = (int)(blockWidth * CurScale);
             int TILE_SIZE_Y = (int)(blockHeight * CurScale);
@@ -82,23 +88,29 @@ namespace NESLevelEditor2
             for (int i = 0; i < bigBlocks.Length; i++)
             {
                 int bigBlockNo = i;
-                Rectangle tileRect = new Rectangle((i % WIDTH) * TILE_SIZE_X, i / WIDTH * TILE_SIZE_Y, TILE_SIZE_X, TILE_SIZE_Y);
+                //Rectangle tileRect = new Rectangle((i % WIDTH) * TILE_SIZE_X, i / WIDTH * TILE_SIZE_Y, TILE_SIZE_X, TILE_SIZE_Y);
+                Rect tileRect = new Rect((i % WIDTH) * TILE_SIZE_X, i / WIDTH * TILE_SIZE_Y, TILE_SIZE_X, TILE_SIZE_Y);
 
                 if (visibleRect == null || visibleRect.Value.Contains(tileRect) || visibleRect.Value.IntersectsWith(tileRect))
                 {
                     if (bigBlockNo > -1 && bigBlockNo < bigBlocks.Length)
-                        g.DrawImage(bigBlocks[bigBlockNo], tileRect);
+                        g.DrawImage(UtilsGDI.GetImageStream(bigBlocks[bigBlockNo]), tileRect);
                     else
-                        g.FillRectangle(Brushes.White, tileRect);
+                       
+                        //g.FillRectangle(System.Windows.Media.Brushes.White, tileRect);
 
                     if (showBlocksAxis)
                     {
-                        g.DrawRectangle(new Pen(Color.FromArgb(255, 255, 255, 255)), tileRect);
+                        g.DrawRectangle(null, new System.Windows.Media.Pen(System.Windows.Media.Brushes.Black, 1), tileRect);
+                        //g.DrawRectangle(null,new System.Windows.Media.Pen(Color.FromArgb(255, 255, 255, 255),1), tileRect);
                     }
 
                     if (i == activeBlock)
                     {
-                        g.DrawRectangle(new Pen(Brushes.Red, 3.0f), tileRect);
+                        //g.DrawRectangle(new Pen(Brushes.Red, 3.0f), tileRect);
+                        g.DrawRectangle(null, new System.Windows.Media.Pen(System.Windows.Media.Brushes.Red, 1), tileRect);
+
+
                     }
                 }
             }
