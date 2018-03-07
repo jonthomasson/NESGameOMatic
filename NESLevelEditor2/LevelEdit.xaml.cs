@@ -32,6 +32,8 @@ namespace NESLevelEditor2
         private static string DumpName = "";
         private static string ConfigName = "";
         private System.Drawing.Image[] _blocks = new System.Drawing.Image[0];
+        private BlockLayer[] _layers = new BlockLayer[2] { new BlockLayer(), new BlockLayer() };
+        private BigBlock[] _blockIndexes;
         public int LevelId { get; set; }
         public int GameId { get; set; }
 
@@ -61,6 +63,7 @@ namespace NESLevelEditor2
             LoadBlocks();
 
             //load map
+            LoadMap();
         }
 
         /// <summary>
@@ -85,10 +88,10 @@ namespace NESLevelEditor2
                 var border = new Border
                 {
                     BorderBrush = System.Windows.Media.Brushes.White,
-                    BorderThickness = new Thickness(1)
+                    BorderThickness = new Thickness(1),
+                    Child = img
                 };
 
-                border.Child = img;
 
 
                 PnlBlocks.Children.Add(border);
@@ -96,6 +99,65 @@ namespace NESLevelEditor2
             
         }
 
+        private void LoadMap()
+        {
+            //get block indexes. Not sure this is needed...
+            _blockIndexes = ConfigScript.getBigBlocksRecursive(0, 0);
+
+            //get screens
+            _layers[0].screens = Utils.setScreens(0);
+
+            LoadMapScreen(0);
+
+            System.Windows.Forms.MessageBox.Show("Map loaded");
+        }
+
+        /// <summary>
+        /// Loads an 8x8 screen onto the tile map
+        /// </summary>
+        /// <param name="screenNo">The 0 based screen number to load.</param>
+        private void LoadMapScreen(int screenNo)
+        {
+            int screenWidth = 8;
+            int screenHeight = 8;
+            int[] screen = _layers[0].screens[screenNo];
+            int blockNo = 0;
+
+            //iterate through block indexes and add appropriate block to map screen
+            for (int i = 0; i < screenWidth; i++)
+            {
+                //for each row
+                for (int y = 0; y < screenHeight; y++)
+                {
+                    //for each column
+                    var currentBlockIdx = screen[blockNo]; //grab the index of the current block
+                    
+                    var img = new System.Windows.Controls.Image
+                    {
+                        Stretch = System.Windows.Media.Stretch.Fill,
+                        Source = UtilsGDI.GetImageStream(_blocks[currentBlockIdx])
+
+                    };
+
+                    var border = new Border
+                    {
+                        BorderBrush = System.Windows.Media.Brushes.White,
+                        BorderThickness = new Thickness(1),
+                        Child = img
+                    };
+
+                    //add image to map grid
+                    MapScreen.Children.Add(border);
+                    Grid.SetColumn(border,y);
+                    Grid.SetRow(border,i);
+                    blockNo++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads data for selected game and level
+        /// </summary>
         private void InitGlobalData()
         {
             Globals.loadData(FileName, "", ConfigName);
