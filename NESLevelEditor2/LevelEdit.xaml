@@ -41,9 +41,13 @@
 
                 <RowDefinition Height="20" />
             </Grid.RowDefinitions>
-
-            <Slider Grid.Column="1" Grid.Row="1" />
-            <!-- Map Screen -->
+            
+            <!-- Map Screen Selector -->
+            <Grid x:Name="MapScreenSelector" Grid.Column="1" Grid.Row="1" >
+                
+            </Grid>
+            
+            <!-- Map Editor Screen -->
             <Grid x:Name="MapScreen" Grid.Column="1" Grid.Row="2" >
                 
                <Grid.ColumnDefinitions>
@@ -74,9 +78,11 @@
                     <ColumnDefinition Width="3*" />
 
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
-                <Button x:Name="BtnBack" Grid.Column="1" Content="Back" Background="#FFA9F6F2" Grid.ColumnSpan="2" Height="30"  VerticalAlignment="Top" Click="BtnBack_Click"  />
+                
+                <Button x:Name="BtnBack" Margin="0,0,0,0" Grid.Column="1" Content="Back" Background="#FFA9F6F2"  Height="30"  VerticalAlignment="Bottom" Click="BtnBack_Click"  />
+                <Button x:Name="BtnPlay" Margin="10,0,0,0" Grid.Column="2" Content="Play" Background="#FFA9F6F2"  Height="30"  VerticalAlignment="Bottom" Click="BtnBack_Click"  />
 
             </Grid>
         </Grid>

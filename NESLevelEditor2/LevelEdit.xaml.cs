@@ -107,9 +107,27 @@ namespace NESLevelEditor2
             //get screens
             _layers[0].screens = Utils.setScreens(0);
 
+            LoadMapScreenSelector();
+
             LoadMapScreen(0);
 
-            System.Windows.Forms.MessageBox.Show("Map loaded");
+           
+        }
+
+        /// <summary>
+        /// loads the map screen selector
+        /// </summary>
+        private void LoadMapScreenSelector()
+        {
+            //add column for each screen to the MapScreenSelector grid
+            for (int i = 0; i < _layers[0].screens.Length; i++)
+            {
+                var colDef = new ColumnDefinition();
+                MapScreenSelector.ColumnDefinitions.Add(colDef);
+            }
+            //for each column, load the blocks for that screen
+
+
         }
 
         /// <summary>
