@@ -20,6 +20,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace NESLevelEditor2
 {
@@ -103,7 +104,7 @@ namespace NESLevelEditor2
         private void LoadMap()
         {
             //get block indexes. Not sure this is needed...
-            _blockIndexes = ConfigScript.getBigBlocksRecursive(0, 0);
+            //_blockIndexes = ConfigScript.getBigBlocksRecursive(0, 0);
 
             //get screens
             _layers[0].screens = Utils.setScreens(0);
@@ -120,20 +121,16 @@ namespace NESLevelEditor2
         /// </summary>
         private void LoadMapScreenSelector()
         {
+            //first clear any children
+            MapScreenSelector.Children.Clear();
+
             //add column for each screen to the MapScreenSelector grid
-            //for (int i = 0; i < _layers[0].screens.Length; i++)
-            //{
-            //    var colDef = new ColumnDefinition();
-            //    MapScreenSelector.ColumnDefinitions.Add(colDef);
-            //}
-            //for each column, load the blocks for that screen
-
-           
-
+         
             for (int i = 0; i < _layers[0].screens.Length; i++)
             {
                 var colDef = new ColumnDefinition();
                 colDef.Width = GridLength.Auto;
+                
                 MapScreenSelector.ColumnDefinitions.Add(colDef);
 
                 var colGrid = new Grid {HorizontalAlignment = HorizontalAlignment.Stretch};
@@ -202,6 +199,8 @@ namespace NESLevelEditor2
                         Child = img
                     };
 
+                    MapGrid.ShowGridLines = false;
+                    
                     //add image to map grid
                     MapGrid.Children.Add(border);
                     Grid.SetColumn(border,y);
@@ -240,6 +239,27 @@ namespace NESLevelEditor2
                     break;
                 col++;
             }
+
+            //remove rectangle overlay from old selection
+            foreach (var child in MapScreenSelector.Children)
+            {
+                if (child is Rectangle)
+                {
+                    MapScreenSelector.Children.Remove((System.Windows.UIElement)child);
+                    break;
+                }
+            }
+            //LoadMapScreenSelector();
+
+            //for selected column add semi transparent rectangle overlay
+            var rectOverlay = new System.Windows.Shapes.Rectangle();
+            rectOverlay.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+            rectOverlay.Opacity = .5;
+            rectOverlay.Stretch = Stretch.Fill;
+            rectOverlay.Fill.Opacity = .5;
+            
+            MapScreenSelector.Children.Add(rectOverlay);
+            Grid.SetColumn(rectOverlay, col);
 
             //load selected screen to editor window
             LoadMapScreen(col, 8, 8, true, ref MapScreen);
