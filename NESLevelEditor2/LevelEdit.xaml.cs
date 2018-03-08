@@ -110,7 +110,7 @@ namespace NESLevelEditor2
 
             LoadMapScreenSelector();
 
-            LoadMapScreen(10, 8, 8, true, ref MapScreen);
+            LoadMapScreen(0, 8, 8, true, ref MapScreen);
 
            
         }
@@ -176,6 +176,9 @@ namespace NESLevelEditor2
             int[] screen = _layers[0].screens[screenNo];
             int blockNo = 0;
 
+            //first we need to remove old contents of grid to mitigate memory consumption
+            MapGrid.Children.Clear();
+
             //iterate through block indexes and add appropriate block to map screen
             for (int i = 0; i < screenWidth; i++)
             {
@@ -221,6 +224,25 @@ namespace NESLevelEditor2
         {
             
             this.Close();
+        }
+
+        private void MapScreenSelector_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var point = Mouse.GetPosition(MapScreenSelector);
+            int col = 0;
+            double accumulatedWidth = 0.0;
+
+            //determine which column was clicked on
+            foreach (var columnDefinition in MapScreenSelector.ColumnDefinitions)
+            {
+                accumulatedWidth += columnDefinition.ActualWidth;
+                if (accumulatedWidth >= point.X)
+                    break;
+                col++;
+            }
+
+            //load selected screen to editor window
+            LoadMapScreen(col, 8, 8, true, ref MapScreen);
         }
     }
 }
