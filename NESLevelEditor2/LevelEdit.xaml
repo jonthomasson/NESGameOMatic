@@ -43,7 +43,7 @@
             </Grid.RowDefinitions>
             
             <!-- Map Screen Selector -->
-            <Grid x:Name="MapScreenSelector" Grid.Column="1" Grid.Row="1" >
+            <Grid x:Name="MapScreenSelector"  Grid.Column="1" Grid.Row="1" >
                 
             </Grid>
             

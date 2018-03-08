@@ -19,6 +19,7 @@ using System.Net.Mime;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
 
 namespace NESLevelEditor2
 {
@@ -109,7 +110,7 @@ namespace NESLevelEditor2
 
             LoadMapScreenSelector();
 
-            LoadMapScreen(0);
+            LoadMapScreen(10, 8, 8, true, ref MapScreen);
 
            
         }
@@ -120,13 +121,47 @@ namespace NESLevelEditor2
         private void LoadMapScreenSelector()
         {
             //add column for each screen to the MapScreenSelector grid
+            //for (int i = 0; i < _layers[0].screens.Length; i++)
+            //{
+            //    var colDef = new ColumnDefinition();
+            //    MapScreenSelector.ColumnDefinitions.Add(colDef);
+            //}
+            //for each column, load the blocks for that screen
+
+           
+
             for (int i = 0; i < _layers[0].screens.Length; i++)
             {
                 var colDef = new ColumnDefinition();
+                colDef.Width = GridLength.Auto;
                 MapScreenSelector.ColumnDefinitions.Add(colDef);
-            }
-            //for each column, load the blocks for that screen
 
+                var colGrid = new Grid {HorizontalAlignment = HorizontalAlignment.Stretch};
+
+
+                for (int y = 0; y < 8; y++)
+                {
+                    //row
+                    var rowDef = new RowDefinition();
+                    colGrid.RowDefinitions.Add(rowDef);
+
+                    for (int j = 0; j < 8; j++)
+                    {
+                        //column
+                        var col = new ColumnDefinition();
+                        colGrid.ColumnDefinitions.Add(col);
+                    }
+                }
+
+                //add image to map grid
+                LoadMapScreen(i, 8, 8, false, ref colGrid);
+                MapScreenSelector.Children.Add(colGrid);
+                Grid.SetColumn(colGrid, i);
+                
+            }
+
+
+           
 
         }
 
@@ -134,10 +169,10 @@ namespace NESLevelEditor2
         /// Loads an 8x8 screen onto the tile map
         /// </summary>
         /// <param name="screenNo">The 0 based screen number to load.</param>
-        private void LoadMapScreen(int screenNo)
+        private void LoadMapScreen(int screenNo, int screenWidth, int screenHeight, bool hasBorder, ref Grid MapGrid)
         {
-            int screenWidth = 8;
-            int screenHeight = 8;
+            //int screenWidth = 8;
+            //int screenHeight = 8;
             int[] screen = _layers[0].screens[screenNo];
             int blockNo = 0;
 
@@ -160,12 +195,12 @@ namespace NESLevelEditor2
                     var border = new Border
                     {
                         BorderBrush = System.Windows.Media.Brushes.White,
-                        BorderThickness = new Thickness(1),
+                        BorderThickness = new Thickness(hasBorder ? 1 : 0),
                         Child = img
                     };
 
                     //add image to map grid
-                    MapScreen.Children.Add(border);
+                    MapGrid.Children.Add(border);
                     Grid.SetColumn(border,y);
                     Grid.SetRow(border,i);
                     blockNo++;
