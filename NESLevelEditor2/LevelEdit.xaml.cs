@@ -32,6 +32,7 @@ namespace NESLevelEditor2
         private static Entities _db;
         private static string FileName = "";
         private static string DumpName = "";
+        private static int CurrentScreen = 0;
         private static string ConfigName = "";
         private System.Drawing.Image[] _blocks = new System.Drawing.Image[0];
         private BlockLayer[] _layers = new BlockLayer[2] { new BlockLayer(), new BlockLayer() };
@@ -108,12 +109,15 @@ namespace NESLevelEditor2
 
             //get screens
             _layers[0].screens = Utils.setScreens(0);
+            CurrentScreen = 0; //default to first screen
 
             LoadMapScreenSelector();
 
-            LoadMapScreen(0, 8, 8, true, ref MapScreen);
+            
+            //MapScreenChanged();
+            //LoadMapScreen(0, 8, 8, true, ref MapScreen);
 
-           
+
         }
 
         /// <summary>
@@ -158,7 +162,7 @@ namespace NESLevelEditor2
             }
 
 
-           
+            MapScreenChanged();
 
         }
 
@@ -239,7 +243,12 @@ namespace NESLevelEditor2
                     break;
                 col++;
             }
+            CurrentScreen = col;
+            MapScreenChanged();
+        }
 
+        private void MapScreenChanged()
+        {
             //remove rectangle overlay from old selection
             foreach (var child in MapScreenSelector.Children)
             {
@@ -249,8 +258,7 @@ namespace NESLevelEditor2
                     break;
                 }
             }
-            //LoadMapScreenSelector();
-
+           
             //for selected column add semi transparent rectangle overlay
             var rectOverlay = new System.Windows.Shapes.Rectangle();
             rectOverlay.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
@@ -259,10 +267,29 @@ namespace NESLevelEditor2
             rectOverlay.Fill.Opacity = .5;
             
             MapScreenSelector.Children.Add(rectOverlay);
-            Grid.SetColumn(rectOverlay, col);
+            Grid.SetColumn(rectOverlay, CurrentScreen);
 
             //load selected screen to editor window
-            LoadMapScreen(col, 8, 8, true, ref MapScreen);
+            LoadMapScreen(CurrentScreen, 8, 8, true, ref MapScreen);
+            
+        }
+
+        private void BtnNext_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (CurrentScreen < _layers[0].screens.Length - 1)
+            {
+                CurrentScreen++;
+                MapScreenChanged();
+            }
+        }
+
+        private void BtnPrev_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (CurrentScreen > 0)
+            {
+                CurrentScreen--;
+                MapScreenChanged();
+            }
         }
     }
 }

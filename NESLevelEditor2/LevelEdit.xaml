@@ -46,31 +46,50 @@
             <Grid x:Name="MapScreenSelector" Background="Transparent"  PreviewMouseLeftButtonDown="MapScreenSelector_OnPreviewMouseLeftButtonDown"  Grid.Column="1" Grid.Row="1" >
                 
             </Grid>
-            
             <!-- Map Editor Screen -->
-            <Grid x:Name="MapScreen" Grid.Column="1" Grid.Row="2" >
-                
-               <Grid.ColumnDefinitions>
-                   <ColumnDefinition></ColumnDefinition>
-                   <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                   <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+
+                    <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
+                
+                <Button x:Name="BtnPrev" Click="BtnPrev_OnClick" Content="Prev" Grid.Column="0" Grid.Row="0" Height="30"></Button>
+               
+                <Grid x:Name="MapScreen" Grid.Column="1" Grid.Row="0" >
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                </Grid>
+
+                <Button x:Name="BtnNext" Click="BtnNext_OnClick" Content="Next" Grid.Column="2" Grid.Row="0" Height="30"></Button>
+
             </Grid>
+            
+            
+         
             
             <!-- Back Button -->
             <Grid Grid.Column="1" Grid.Row="3" >
