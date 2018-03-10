@@ -83,7 +83,7 @@ namespace NESLevelEditor2
             GrdBlocks.Children.Clear();
 
             //loop through blocks and add them to the wrap panel.
-            for (int i = 0; i < _blocks.Length - 1; i++)
+            for (int i = 0; i < _blocks.Length; i++)
             {
 
                 var img = new System.Windows.Controls.Image

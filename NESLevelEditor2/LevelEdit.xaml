@@ -30,6 +30,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
         </Grid>
         </Viewbox>
         
@@ -54,7 +57,7 @@
             </Grid.RowDefinitions>
 
             <!-- Map Screen Selector -->
-            <Grid x:Name="MapScreenSelector" Background="Transparent"  PreviewMouseLeftButtonDown="MapScreenSelector_OnPreviewMouseLeftButtonDown"  Grid.Column="1" Grid.Row="0" >
+            <Grid x:Name="MapScreenSelector" Background="Transparent"  PreviewMouseLeftButtonDown="MapScreenSelector_OnPreviewMouseLeftButtonDown"  Grid.Column="1" Grid.Row="0">
 
             </Grid>
             <!-- Map Editor Screen -->
