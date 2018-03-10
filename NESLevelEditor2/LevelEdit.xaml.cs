@@ -75,7 +75,12 @@ namespace NESLevelEditor2
         private void LoadBlocks()
         {
             var videoNes = new Video();
+            var numCols = 5;
+            var currentColumn = 0;
+            var currentRow = 0;
             _blocks = videoNes.makeBigBlocks(0, 0, 0, 0, MapViewType.Tiles, MapViewType.Tiles, 0);
+
+            GrdBlocks.Children.Clear();
 
             //loop through blocks and add them to the wrap panel.
             for (int i = 0; i < _blocks.Length - 1; i++)
@@ -83,7 +88,7 @@ namespace NESLevelEditor2
 
                 var img = new System.Windows.Controls.Image
                 {
-                    Stretch = System.Windows.Media.Stretch.None,
+                    Stretch = System.Windows.Media.Stretch.Fill,
                     Source = UtilsGDI.GetImageStream(_blocks[i])
 
                 };
@@ -95,9 +100,34 @@ namespace NESLevelEditor2
                     Child = img
                 };
 
+                //var vbox = new Viewbox { Child = border };
+                
 
+                if (currentColumn == numCols - 1)
+                {
+                    //new row
+                    var rowDef = new RowDefinition();
+                    GrdBlocks.RowDefinitions.Add(rowDef);
 
-                PnlBlocks.Children.Add(border);
+                    GrdBlocks.Children.Add(border);
+                    Grid.SetColumn(border, currentColumn);
+                    Grid.SetRow(border, currentRow);
+
+                    currentColumn = 0;
+                    currentRow++;
+                }
+                else
+                {
+                    GrdBlocks.Children.Add(border);
+                    Grid.SetColumn(border, currentColumn);
+                    Grid.SetRow(border, currentRow);
+
+                    currentColumn++;
+                }
+
+               
+
+                //PnlBlocks.Children.Add(border);
             }
             
         }
@@ -158,6 +188,7 @@ namespace NESLevelEditor2
                 LoadMapScreen(i, 8, 8, false, ref colGrid);
                 MapScreenSelector.Children.Add(colGrid);
                 Grid.SetColumn(colGrid, i);
+
                 
             }
 
