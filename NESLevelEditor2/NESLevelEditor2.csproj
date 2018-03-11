@@ -165,6 +165,7 @@
     <Resource Include="Games\tiny_toon\TinyToonAdventures.png" />
     <Resource Include="Games\tiny_toon\TinyToonAdventures-Stage1-Area1.png" />
     <Resource Include="Games\tiny_toon\TinyToonAdventures-Stage1-Area2.png" />
+    <Resource Include="Games\tiny_toon\TinyToonAdventures-Stage1-Area3.png" />
     <Content Include="NESLevelEditorModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NESLevelEditorModel.Context.cs</LastGenOutput>
