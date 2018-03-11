@@ -75,28 +75,8 @@
                 <Button x:Name="BtnPrev" Click="BtnPrev_OnClick" Content="Prev" Grid.Column="0" Grid.Row="0" Height="30"></Button>
                 <Viewbox Grid.Column="1" Grid.Row="0">
                     <!--note - viewbox helps keep map area square -->
-                    <Grid x:Name="MapScreen"  Height="400" Width="400" >
+                    <Grid x:Name="MapScreen"  >
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
                     </Grid>
                 </Viewbox>
 

@@ -306,6 +306,20 @@ namespace NESLevelEditor2
             Grid.SetColumn(rectOverlay, CurrentScreen);
 
             //load selected screen to editor window
+            for (int y = 0; y < ScreenHeight; y++)
+            {
+                //row
+                var rowDef = new RowDefinition();
+                MapScreen.RowDefinitions.Add(rowDef);
+
+                for (int j = 0; j < ScreenWidth; j++)
+                {
+                    //column
+                    var col = new ColumnDefinition();
+                    MapScreen.ColumnDefinitions.Add(col);
+                }
+            }
+
             LoadMapScreen(CurrentScreen, ScreenWidth, ScreenHeight, true, ref MapScreen);
             
         }
