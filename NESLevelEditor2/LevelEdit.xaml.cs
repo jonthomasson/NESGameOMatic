@@ -173,13 +173,13 @@ namespace NESLevelEditor2
                 var colGrid = new Grid {HorizontalAlignment = HorizontalAlignment.Stretch};
 
 
-                for (int y = 0; y < 8; y++)
+                for (int y = 0; y < ScreenHeight; y++)
                 {
                     //row
                     var rowDef = new RowDefinition();
                     colGrid.RowDefinitions.Add(rowDef);
 
-                    for (int j = 0; j < 8; j++)
+                    for (int j = 0; j < ScreenWidth; j++)
                     {
                         //column
                         var col = new ColumnDefinition();
