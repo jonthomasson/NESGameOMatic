@@ -34,6 +34,8 @@ namespace NESLevelEditor2
         private static string DumpName = "";
         private static int CurrentScreen = 0;
         private static string ConfigName = "";
+        private static int ScreenWidth = 8;
+        private static int ScreenHeight = 8;
         private System.Drawing.Image[] _blocks = new System.Drawing.Image[0];
         private BlockLayer[] _layers = new BlockLayer[2] { new BlockLayer(), new BlockLayer() };
         private BigBlock[] _blockIndexes;
@@ -78,6 +80,7 @@ namespace NESLevelEditor2
             var numCols = 5;
             var currentColumn = 0;
             var currentRow = 0;
+            
             _blocks = videoNes.makeBigBlocks(0, 0, 0, 0, MapViewType.Tiles, MapViewType.Tiles, 0);
 
             GrdBlocks.Children.Clear();
@@ -185,7 +188,7 @@ namespace NESLevelEditor2
                 }
 
                 //add image to map grid
-                LoadMapScreen(i, 8, 8, false, ref colGrid);
+                LoadMapScreen(i,ScreenWidth, ScreenHeight, false, ref colGrid);
                 MapScreenSelector.Children.Add(colGrid);
                 Grid.SetColumn(colGrid, i);
 
@@ -212,10 +215,10 @@ namespace NESLevelEditor2
             MapGrid.Children.Clear();
 
             //iterate through block indexes and add appropriate block to map screen
-            for (int i = 0; i < screenWidth; i++)
+            for (int i = 0; i < screenHeight; i++)
             {
                 //for each row
-                for (int y = 0; y < screenHeight; y++)
+                for (int y = 0; y < screenWidth; y++)
                 {
                     //for each column
                     var currentBlockIdx = screen[blockNo]; //grab the index of the current block
@@ -251,6 +254,8 @@ namespace NESLevelEditor2
         private void InitGlobalData()
         {
             Globals.loadData(FileName, "", ConfigName);
+            ScreenHeight = ConfigScript.getScreenHeight(0);
+            ScreenWidth = ConfigScript.getScreenWidth(0);
 
         }
 
@@ -301,7 +306,7 @@ namespace NESLevelEditor2
             Grid.SetColumn(rectOverlay, CurrentScreen);
 
             //load selected screen to editor window
-            LoadMapScreen(CurrentScreen, 8, 8, true, ref MapScreen);
+            LoadMapScreen(CurrentScreen, ScreenWidth, ScreenHeight, true, ref MapScreen);
             
         }
 

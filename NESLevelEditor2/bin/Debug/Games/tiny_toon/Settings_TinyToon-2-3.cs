@@ -1,4 +1,4 @@
-using CadEditor;
+using NESLevelEditor2;
 using System.Collections.Generic;
 //css_include Settings_TinyToon-Utils.cs;
 
