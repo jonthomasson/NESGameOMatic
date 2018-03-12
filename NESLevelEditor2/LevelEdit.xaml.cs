@@ -144,6 +144,25 @@ namespace NESLevelEditor2
             _layers[0].screens = Utils.setScreens(0);
             CurrentScreen = 0; //default to first screen
 
+            //initialize map screen grids
+            for (int y = 0; y < ScreenHeight; y++)
+            {
+                //row
+                MapScreen.RowDefinitions.Add(new RowDefinition());
+                MapScreenPrev.RowDefinitions.Add(new RowDefinition());
+                MapScreenNext.RowDefinitions.Add(new RowDefinition());
+
+
+                for (int j = 0; j < ScreenWidth; j++)
+                {
+                    //column
+                    MapScreen.ColumnDefinitions.Add(new ColumnDefinition());
+                    MapScreenPrev.ColumnDefinitions.Add(new ColumnDefinition());
+                    MapScreenNext.ColumnDefinitions.Add(new ColumnDefinition());
+
+                }
+            }
+
             LoadMapScreenSelector();
 
             
@@ -305,23 +324,32 @@ namespace NESLevelEditor2
             MapScreenSelector.Children.Add(rectOverlay);
             Grid.SetColumn(rectOverlay, CurrentScreen);
 
-            //load selected screen to editor window
-            for (int y = 0; y < ScreenHeight; y++)
-            {
-                //row
-                var rowDef = new RowDefinition();
-                MapScreen.RowDefinitions.Add(rowDef);
-
-                for (int j = 0; j < ScreenWidth; j++)
-                {
-                    //column
-                    var col = new ColumnDefinition();
-                    MapScreen.ColumnDefinitions.Add(col);
-                }
-            }
+            
 
             LoadMapScreen(CurrentScreen, ScreenWidth, ScreenHeight, true, ref MapScreen);
-            
+
+            if (CurrentScreen > 0)
+            {
+                LoadMapScreen(CurrentScreen - 1, ScreenWidth, ScreenHeight, false, ref MapScreenPrev);
+
+            }
+            else
+            {
+                //clear child elements from MapScreenPrev
+                MapScreenPrev.Children.Clear();
+            }
+
+            if (CurrentScreen < _layers[0].screens.Length - 1)
+            {
+                LoadMapScreen(CurrentScreen + 1, ScreenWidth, ScreenHeight, false, ref MapScreenNext);
+
+            }
+            else
+            {
+                //clear child elements from MapScreenNext
+                MapScreenNext.Children.Clear();
+            }
+
         }
 
         private void BtnNext_OnClick(object sender, RoutedEventArgs e)
