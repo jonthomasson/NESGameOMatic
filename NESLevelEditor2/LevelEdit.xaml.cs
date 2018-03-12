@@ -156,9 +156,9 @@ namespace NESLevelEditor2
                 for (int j = 0; j < ScreenWidth; j++)
                 {
                     //column
-                    MapScreen.ColumnDefinitions.Add(new ColumnDefinition());
-                    MapScreenPrev.ColumnDefinitions.Add(new ColumnDefinition());
-                    MapScreenNext.ColumnDefinitions.Add(new ColumnDefinition());
+                    MapScreen.ColumnDefinitions.Add(new ColumnDefinition{Width = GridLength.Auto});
+                    MapScreenPrev.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                    MapScreenNext.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
                 }
             }
@@ -330,7 +330,7 @@ namespace NESLevelEditor2
 
             if (CurrentScreen > 0)
             {
-                LoadMapScreen(CurrentScreen - 1, ScreenWidth, ScreenHeight, false, ref MapScreenPrev);
+                LoadMapScreen(CurrentScreen - 1, ScreenWidth, ScreenHeight, true, ref MapScreenPrev);
 
             }
             else
@@ -341,7 +341,7 @@ namespace NESLevelEditor2
 
             if (CurrentScreen < _layers[0].screens.Length - 1)
             {
-                LoadMapScreen(CurrentScreen + 1, ScreenWidth, ScreenHeight, false, ref MapScreenNext);
+                LoadMapScreen(CurrentScreen + 1, ScreenWidth, ScreenHeight, true, ref MapScreenNext);
 
             }
             else
