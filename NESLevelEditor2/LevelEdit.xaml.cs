@@ -20,6 +20,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace NESLevelEditor2
@@ -48,6 +49,7 @@ namespace NESLevelEditor2
             _db = new Entities();
 
             this.Loaded += new RoutedEventHandler(LevelEdit_Loaded);
+
            
         }
 
@@ -103,7 +105,6 @@ namespace NESLevelEditor2
                     Child = img
                 };
 
-                //var vbox = new Viewbox { Child = border };
                 
 
                 if (currentColumn == numCols - 1)
@@ -129,11 +130,10 @@ namespace NESLevelEditor2
                 }
 
                
-
-                //PnlBlocks.Children.Add(border);
             }
             
         }
+        
 
         private void LoadMap()
         {
@@ -284,21 +284,57 @@ namespace NESLevelEditor2
             this.Close();
         }
 
-        private void MapScreenSelector_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// Gets the currently selected column in a Grid.
+        /// </summary>
+        /// <param name="grid">The Grid passed in by ref</param>
+        /// <returns></returns>
+        private int GridSelectedColumn(ref Grid grid)
         {
-            var point = Mouse.GetPosition(MapScreenSelector);
+            var point = Mouse.GetPosition(grid);
             int col = 0;
             double accumulatedWidth = 0.0;
 
             //determine which column was clicked on
-            foreach (var columnDefinition in MapScreenSelector.ColumnDefinitions)
+            foreach (var columnDefinition in grid.ColumnDefinitions)
             {
                 accumulatedWidth += columnDefinition.ActualWidth;
                 if (accumulatedWidth >= point.X)
                     break;
                 col++;
             }
-            CurrentScreen = col;
+
+            return col;
+        }
+
+        /// <summary>
+        /// Gets the currently selected row in a Grid
+        /// </summary>
+        /// <param name="grid">the Grid passed in by ref</param>
+        /// <returns></returns>
+        private int GridSelectedRow(ref Grid grid)
+        {
+            var point = Mouse.GetPosition(grid);
+            int row = 0;
+            double accumulatedHeight = 0.0;
+
+            //determine which column was clicked on
+            foreach (var rowDefinition in grid.RowDefinitions)
+            {
+                accumulatedHeight += rowDefinition.ActualHeight;
+                if (accumulatedHeight >= point.Y)
+                    break;
+                row++;
+            }
+
+            return row;
+        }
+
+        private void MapScreenSelector_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            CurrentScreen = GridSelectedColumn(ref MapScreenSelector);
+
+          
             MapScreenChanged();
         }
 
@@ -326,11 +362,11 @@ namespace NESLevelEditor2
 
             
 
-            LoadMapScreen(CurrentScreen, ScreenWidth, ScreenHeight, true, ref MapScreen);
+            LoadMapScreen(CurrentScreen, ScreenWidth, ScreenHeight, false, ref MapScreen);
 
             if (CurrentScreen > 0)
             {
-                LoadMapScreen(CurrentScreen - 1, ScreenWidth, ScreenHeight, true, ref MapScreenPrev);
+                LoadMapScreen(CurrentScreen - 1, ScreenWidth, ScreenHeight, false, ref MapScreenPrev);
 
             }
             else
@@ -341,7 +377,7 @@ namespace NESLevelEditor2
 
             if (CurrentScreen < _layers[0].screens.Length - 1)
             {
-                LoadMapScreen(CurrentScreen + 1, ScreenWidth, ScreenHeight, true, ref MapScreenNext);
+                LoadMapScreen(CurrentScreen + 1, ScreenWidth, ScreenHeight, false, ref MapScreenNext);
 
             }
             else
@@ -368,6 +404,42 @@ namespace NESLevelEditor2
                 CurrentScreen--;
                 MapScreenChanged();
             }
+        }
+        
+
+        private void GrdBlocks_OnMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            //Get currently selected column and row (Note, may refactor later to use Grid.GetRow / Grid.GetColumn ?)
+            var col = GridSelectedColumn(ref GrdBlocks);
+            var row = GridSelectedRow(ref GrdBlocks);
+
+            //navigate to column/row to get cell
+            var cell = GrdBlocks.Children.Cast<UIElement>()
+                .First(ctl => Grid.GetRow(ctl) == row && Grid.GetColumn(ctl) == col);
+
+            //clear out old selection
+            foreach (var child in GrdBlocks.Children)
+            {
+                if (child is Border)
+                {
+                    ((Border)child).BorderBrush = System.Windows.Media.Brushes.White;
+
+                }
+            }
+
+            //highlight new selection
+            if (cell is Border)
+            {
+                //highlight border
+                ((Border)cell).BorderBrush = System.Windows.Media.Brushes.Red;
+
+            }
+        }
+
+        private void GrdBlocks_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //select current block
+
         }
     }
 }

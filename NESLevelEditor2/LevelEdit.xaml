@@ -22,7 +22,7 @@
 
         <!-- panel for holding the tiles -->
         <Viewbox Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" >
-            <Grid x:Name="GrdBlocks" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
+            <Grid x:Name="GrdBlocks" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" MouseMove="GrdBlocks_OnMouseMove">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -46,14 +46,11 @@
                 <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-
                 <RowDefinition Height="*" />
                 <RowDefinition Height="20" />
                 <RowDefinition Height="6*" />
                 <RowDefinition Height="20" />
                 <RowDefinition Height=".4*" />
-
-
             </Grid.RowDefinitions>
 
             <!-- Map Screen Selector -->
