@@ -22,7 +22,7 @@
 
         <!-- panel for holding the tiles -->
         <Viewbox Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" >
-            <Grid x:Name="GrdBlocks" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" MouseMove="GrdBlocks_OnMouseMove">
+            <Grid x:Name="GrdBlocks" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" MouseMove="GrdBlocks_OnMouseMove" PreviewMouseLeftButtonDown="GrdBlocks_OnPreviewMouseLeftButtonDown">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />

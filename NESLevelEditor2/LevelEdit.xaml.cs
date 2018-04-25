@@ -34,6 +34,10 @@ namespace NESLevelEditor2
         private static string FileName = "";
         private static string DumpName = "";
         private static int CurrentScreen = 0;
+        private static int CurrentSelectedBlock = 0;
+        private static int CurrentRowBlock = 0;
+        private static int CurrentColBlock = 0;
+        private static Border CurrentBorderBlock;
         private static string ConfigName = "";
         private static int ScreenWidth = 8;
         private static int ScreenHeight = 8;
@@ -417,12 +421,18 @@ namespace NESLevelEditor2
             var cell = GrdBlocks.Children.Cast<UIElement>()
                 .First(ctl => Grid.GetRow(ctl) == row && Grid.GetColumn(ctl) == col);
 
+            CurrentRowBlock = row;
+            CurrentColBlock = col;
+
             //clear out old selection
             foreach (var child in GrdBlocks.Children)
             {
                 if (child is Border)
                 {
-                    ((Border)child).BorderBrush = System.Windows.Media.Brushes.White;
+                    if (Equals(((Border) child).BorderBrush, System.Windows.Media.Brushes.Red))
+                    {
+                        ((Border)child).BorderBrush = System.Windows.Media.Brushes.White;
+                    }
 
                 }
             }
@@ -431,7 +441,13 @@ namespace NESLevelEditor2
             if (cell is Border)
             {
                 //highlight border
-                ((Border)cell).BorderBrush = System.Windows.Media.Brushes.Red;
+                if (Equals(((Border)cell).BorderBrush, System.Windows.Media.Brushes.White))
+                {
+                    ((Border)cell).BorderBrush = System.Windows.Media.Brushes.Red;
+                }
+                
+
+                CurrentBorderBlock = (Border)cell;
 
             }
         }
@@ -439,6 +455,23 @@ namespace NESLevelEditor2
         private void GrdBlocks_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //select current block
+            //get current index of currenetly selected block
+            CurrentSelectedBlock = CurrentColBlock * CurrentRowBlock;
+
+            //clear out old selection
+            foreach (var child in GrdBlocks.Children)
+            {
+                if (child is Border)
+                {
+                    if (Equals(((Border)child).BorderBrush, System.Windows.Media.Brushes.Blue))
+                    {
+                        ((Border)child).BorderBrush = System.Windows.Media.Brushes.White;
+                    }
+
+                }
+            }
+            CurrentBorderBlock.BorderBrush = System.Windows.Media.Brushes.Blue;
+
 
         }
     }
