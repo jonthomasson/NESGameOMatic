@@ -456,7 +456,7 @@ namespace NESLevelEditor2
         {
             //select current block
             //get current index of currenetly selected block
-            CurrentSelectedBlock = CurrentColBlock * CurrentRowBlock;
+            CurrentSelectedBlock = (CurrentColBlock + 1) * (CurrentRowBlock + 1);
 
             //clear out old selection
             foreach (var child in GrdBlocks.Children)
@@ -472,6 +472,34 @@ namespace NESLevelEditor2
             }
             CurrentBorderBlock.BorderBrush = System.Windows.Media.Brushes.Blue;
 
+
+        }
+
+       
+        private void MapScreen_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //populate current selected cell with CurrentSelectedBlock
+            //Get currently selected column and row (Note, may refactor later to use Grid.GetRow / Grid.GetColumn ?)
+            var col = GridSelectedColumn(ref MapScreen);
+            var row = GridSelectedRow(ref MapScreen);
+
+            //navigate to column/row to get cell
+            var cell = MapScreen.Children.Cast<UIElement>()
+                .First(ctl => Grid.GetRow(ctl) == row && Grid.GetColumn(ctl) == col);
+
+            //set cell image = _blocks[CurrentSelectedBlock]
+            if (cell is Border)
+            {
+                
+                var img = new System.Windows.Controls.Image
+                {
+                    Stretch = System.Windows.Media.Stretch.Fill,
+                    Source = UtilsGDI.GetImageStream(_blocks[CurrentSelectedBlock])
+
+                };
+
+                ((Border) cell).Child = img;
+            }
 
         }
     }

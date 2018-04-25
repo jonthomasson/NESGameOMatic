@@ -80,9 +80,9 @@
 
 
 
-                    <Viewbox Grid.Column="1" Grid.Row="0">
+                    <Viewbox Grid.Column="1" Grid.Row="0" >
                         <!--note - viewbox helps keep map area square -->
-                        <Grid x:Name="MapScreen"  >
+                        <Grid x:Name="MapScreen" PreviewMouseLeftButtonDown="MapScreen_OnPreviewMouseLeftButtonDown"  >
 
                         </Grid>
                     </Viewbox>
