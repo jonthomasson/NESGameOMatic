@@ -456,7 +456,7 @@ namespace NESLevelEditor2
         {
             //select current block
             //get current index of currenetly selected block
-            CurrentSelectedBlock = (CurrentColBlock + 1) * (CurrentRowBlock + 1);
+            CurrentSelectedBlock = (CurrentRowBlock * 5) + CurrentColBlock; //(CurrentColBlock) * (CurrentRowBlock + 1);
 
             //clear out old selection
             foreach (var child in GrdBlocks.Children)
@@ -476,6 +476,11 @@ namespace NESLevelEditor2
         }
 
        
+        /// <summary>
+        /// replaces the tile on the map screen with the one selected from the block/tile screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MapScreen_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             //populate current selected cell with CurrentSelectedBlock
@@ -487,7 +492,7 @@ namespace NESLevelEditor2
             var cell = MapScreen.Children.Cast<UIElement>()
                 .First(ctl => Grid.GetRow(ctl) == row && Grid.GetColumn(ctl) == col);
 
-            //set cell image = _blocks[CurrentSelectedBlock]
+            //I'll eventually rewrite this to use a copy of the layer so it's not rewritten whenever the map is redrawn...
             if (cell is Border)
             {
                 
